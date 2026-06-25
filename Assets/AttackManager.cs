@@ -9,7 +9,14 @@ public class AttackManager : MonoBehaviour
         if (other.gameObject.CompareTag("AttackableCharacter"))
         {
             other.gameObject.GetComponent<BasicHealthScript>().onAttacked(attackStrength);
-            Debug.Log("collision with attackable charachter detected");
+        }
+        else if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("player tag detected");
+            if(Pathfinding.Attack())
+            { 
+                other.gameObject.GetComponent<BasicHealthScript>().onAttacked(attackStrength);
+            }
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created

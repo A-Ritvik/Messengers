@@ -292,19 +292,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5375047960093657315, guid: 64359be8b124840d0bb4846426882691, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9999619
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5375047960093657315, guid: 64359be8b124840d0bb4846426882691, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5375047960093657315, guid: 64359be8b124840d0bb4846426882691, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.008726557
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5375047960093657315, guid: 64359be8b124840d0bb4846426882691, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5375047960093657315, guid: 64359be8b124840d0bb4846426882691, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -320,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5375047960093657315, guid: 64359be8b124840d0bb4846426882691, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5375047960093657315, guid: 64359be8b124840d0bb4846426882691, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -651,7 +651,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5be60936032ca48942e437483edd2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicHealthScript
-  Health: 5
+  Health: 10
+  fullHealth: 0
+  healthbarFull: {fileID: 1832034716540374075, guid: cff7f33ffde3eee4ab1f9af8693d334e, type: 3}
+  healthbarHalf: {fileID: -1476957136920842317, guid: 0a302b47f3bcecc469e362535cb732a1, type: 3}
+  healthbarEmpty: {fileID: 1061106865846247634, guid: e197a793e6071124d9763f58a0c026c8, type: 3}
+  spriteRender: {fileID: 2096111679}
 --- !u!1 &402828585
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,6 +1904,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicHealthScript
   Health: 6
+  fullHealth: 0
+  healthbarFull: {fileID: 0}
+  healthbarHalf: {fileID: 0}
+  healthbarEmpty: {fileID: 0}
+  spriteRender: {fileID: 0}
 --- !u!224 &1535436897 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5375047960093657315, guid: 64359be8b124840d0bb4846426882691, type: 3}
@@ -6743,7 +6753,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Pathfinding
   target: {fileID: 220132290}
   speed: 0
-  NPCAttackCoolDown: 0
 --- !u!1 &1743999561
 GameObject:
   m_ObjectHideFlags: 0

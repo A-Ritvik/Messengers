@@ -3,7 +3,6 @@ using UnityEngine;
 public class WorldManager : MonoBehaviour
 {
     public GameObject player;
-    public static TagHandle playerTag = TagHandle.GetExistingTag("Player");
     Vector3 origin = new Vector3(3.62F, -1.255F, -1F);
     public enum personality
     {

@@ -84,7 +84,6 @@ public class PlayerControl : MonoBehaviour
                 }
                 else if (NumberAttack1 == 0)
                 {
-                    Debug.Log("attack ready");
                     attackStateValid = true;
                 }
             secondsPassed++;
