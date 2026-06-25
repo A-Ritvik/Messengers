@@ -1,14 +1,17 @@
+using System.Collections;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerControl : MonoBehaviour
 {
     SpriteRenderer spriteRender;
     private Vector2 moveInput;
     public GameObject attackBox;
 
     public float speed = 5f;
+    public int NumberAttack1;
+    int NumberAttack1CoolDown = 6;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -17,14 +20,14 @@ public class PlayerMovement : MonoBehaviour
         {
             spriteRender.flipX=true;
             attackBox.transform.localPosition = new Vector3(-0.1f,0,0);
-            attackBox.transform.localRotation = Quaternion.Euler(0,180,-90);
+            attackBox.transform.localRotation = Quaternion.Euler(0,180,-50.157f);
 
         }
         else if(moveInput.x>0)
         {
             spriteRender.flipX=false;
             attackBox.transform.localPosition = new Vector3(0.101f, -0.011f, 0.0422f);
-            attackBox.transform.localRotation = Quaternion.Euler(0,0,-90);
+            attackBox.transform.localRotation = Quaternion.Euler(0,0,-50.157f);
         }
     }
     Rigidbody2D rb;
@@ -39,25 +42,60 @@ public class PlayerMovement : MonoBehaviour
             jumpCount++;
         }
     }
+    public bool attackStateValid;
+    float attackDuration = 0.5f;
     public void onAttack(InputAction.CallbackContext context)
     {
+        if(attackStateValid)
+        {
         if (context.performed)
         {
-            attackBox.SetActive(true);
+            attackBox.GetComponent<Animator>().SetTrigger("Attack");
+            StartCoroutine(Attack());
+            timeStamp = secondsPassed;
+            NumberAttack1++;
+
         }
-        else
-        {
-            attackBox.SetActive(false);
         }
+    }
+    IEnumerator Attack()
+    {
+        attackBox.SetActive(true);
+        attackBox.GetComponent<BoxCollider2D>().enabled = true;
+        yield return new WaitForSeconds(attackDuration);
+        attackBox.GetComponent<BoxCollider2D>().enabled = false;
     }
     public int jumpMultiplier = 2;
     int jumpCount = 0;
     public int jumpMax;
-
+    public int secondsPassed;
+    public int timeStamp;
+    IEnumerator AttackCoolDown()
+    {
+        while(true)
+        {
+            if((secondsPassed - timeStamp)%NumberAttack1CoolDown == 0 && (secondsPassed-timeStamp) != 0)
+            {
+                NumberAttack1 = 0;
+            }
+            if(NumberAttack1 >= 1)
+                {
+                    attackStateValid = false;
+                }
+                else if (NumberAttack1 == 0)
+                {
+                    Debug.Log("attack ready");
+                    attackStateValid = true;
+                }
+            secondsPassed++;
+            yield return new WaitForSeconds(1);
+        }
+    }
     private void Update()
     {
         Vector2 move = new Vector2(moveInput.x, moveInput.y);
         transform.Translate(move * speed * Time.deltaTime);
+
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -65,10 +103,10 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpCount = 0;
         }
-        Debug.Log("Collided with: " + collision.gameObject.name);
     }
     void Start()
     {
+        StartCoroutine(AttackCoolDown());
         rb = GetComponent<Rigidbody2D>();
         spriteRender = GetComponent<SpriteRenderer>();
     }

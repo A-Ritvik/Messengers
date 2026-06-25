@@ -7,25 +7,18 @@ using UnityEngine.AI;
 public class BasicHealthScript : MonoBehaviour
 {
     public int Health;
-    public int attackValue;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if(Variables.Object(gameObject).IsDefined("Health"))
+        {
         Health = (int)Variables.Object(gameObject).Get("Health");
+        }
     }
-    public void onAttack(int attackValue)
+    public void onAttacked(int attackValue)
     {
         Health -= attackValue;
         GetComponent<ParticleSystem>().Play();
-    }
-    public void FindPlayer()
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        gameObject.GetComponent<NavMeshAgent>().SetDestination(player.transform.position);
-    }
-    bool checkPos()
-    {
-        return true;
     }
     // Update is called once per frame
     void Update()
@@ -33,10 +26,6 @@ public class BasicHealthScript : MonoBehaviour
         if (Health <= 0)
         {
             Destroy(gameObject);
-        }
-        if (checkPos())
-        {
-            FindPlayer();
         }
     }
 }

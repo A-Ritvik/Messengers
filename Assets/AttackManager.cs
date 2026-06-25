@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class AttackManager : MonoBehaviour
 {
-    int attackStrength = 2;
-    void OnTriggerEnter2D(Collider2D collision)
+    public int attackStrength = 2;
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("AttackableCharacter"))
+        Debug.Log("collision detected");
+        if (other.gameObject.CompareTag("AttackableCharacter"))
         {
-            collision.gameObject.GetComponent<BasicHealthScript>().onAttack(attackStrength);
+            other.gameObject.GetComponent<BasicHealthScript>().onAttacked(attackStrength);
+            Debug.Log("collision with attackable charachter detected");
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
