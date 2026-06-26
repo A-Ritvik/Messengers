@@ -12,13 +12,18 @@ public class PlayerControl : MonoBehaviour
     public float speed = 5f;
     public int NumberAttack1;
     int NumberAttack1CoolDown = 6;
-    public static bool climbMode;
+    public static bool climbMode = false;
+    public static bool controlsEnabled = true;
+    public static bool topdownMode;
     public void OnClimb(InputAction.CallbackContext context)
     {
+        if(controlsEnabled)
+        {
         if(climbMode)
         {
                 move.x = 0;
                 move.y = context.ReadValue<float>();
+        }
         }
     }
 
@@ -46,6 +51,8 @@ public class PlayerControl : MonoBehaviour
     Rigidbody2D rb;
      public void OnJump(InputAction.CallbackContext context)
     {
+        if(!climbMode)
+        {
         if (context.performed && jumpCount < jumpMax)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y);
@@ -54,6 +61,7 @@ public class PlayerControl : MonoBehaviour
 
             jumpCount++;
         }
+        }
     }
     public bool attackStateValid;
     float attackDuration = 0.5f;
@@ -61,14 +69,17 @@ public class PlayerControl : MonoBehaviour
     {
         if(attackStateValid)
         {
-        if (context.performed)
-        {
-            attackBox.GetComponent<Animator>().SetTrigger("Attack");
-            StartCoroutine(Attack());
-            timeStamp = secondsPassed;
-            NumberAttack1++;
+            if(!climbMode)
+            {
+                if (context.performed)
+                {
+                    attackBox.GetComponent<Animator>().SetTrigger("Attack");
+                    StartCoroutine(Attack());
+                    timeStamp = secondsPassed;
+                    NumberAttack1++;
 
-        }
+                }
+            }
         }
     }
     IEnumerator Attack()
@@ -117,10 +128,12 @@ public class PlayerControl : MonoBehaviour
             jumpCount = 0;
         }
     }
+    public static GameObject player;
     void Start()
     {
         StartCoroutine(AttackCoolDown());
         rb = GetComponent<Rigidbody2D>();
         spriteRender = GetComponent<SpriteRenderer>();
+        player = gameObject;
     }
 }

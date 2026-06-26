@@ -136,6 +136,24 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EnterShop"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f5558b5-035e-46a5-9ba4-475d7cc1351d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ExitUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""aab06ded-44cd-4204-9c60-6db193fe109a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -237,6 +255,28 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""action"": ""Climb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f89bdcab-21b6-4e91-946b-529a8fed5792"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EnterShop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32197d05-6d49-48a3-9bda-1bf230400490"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ExitUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -250,6 +290,8 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         m_CustomPlayer_Attack = m_CustomPlayer.FindAction("Attack", throwIfNotFound: true);
         m_CustomPlayer_PopVent = m_CustomPlayer.FindAction("PopVent", throwIfNotFound: true);
         m_CustomPlayer_Climb = m_CustomPlayer.FindAction("Climb", throwIfNotFound: true);
+        m_CustomPlayer_EnterShop = m_CustomPlayer.FindAction("EnterShop", throwIfNotFound: true);
+        m_CustomPlayer_ExitUI = m_CustomPlayer.FindAction("ExitUI", throwIfNotFound: true);
     }
 
     ~@PlayerActionMap()
@@ -335,6 +377,8 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_CustomPlayer_Attack;
     private readonly InputAction m_CustomPlayer_PopVent;
     private readonly InputAction m_CustomPlayer_Climb;
+    private readonly InputAction m_CustomPlayer_EnterShop;
+    private readonly InputAction m_CustomPlayer_ExitUI;
     /// <summary>
     /// Provides access to input actions defined in input action map "Custom Player".
     /// </summary>
@@ -366,6 +410,14 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CustomPlayer/Climb".
         /// </summary>
         public InputAction @Climb => m_Wrapper.m_CustomPlayer_Climb;
+        /// <summary>
+        /// Provides access to the underlying input action "CustomPlayer/EnterShop".
+        /// </summary>
+        public InputAction @EnterShop => m_Wrapper.m_CustomPlayer_EnterShop;
+        /// <summary>
+        /// Provides access to the underlying input action "CustomPlayer/ExitUI".
+        /// </summary>
+        public InputAction @ExitUI => m_Wrapper.m_CustomPlayer_ExitUI;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -407,6 +459,12 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @Climb.started += instance.OnClimb;
             @Climb.performed += instance.OnClimb;
             @Climb.canceled += instance.OnClimb;
+            @EnterShop.started += instance.OnEnterShop;
+            @EnterShop.performed += instance.OnEnterShop;
+            @EnterShop.canceled += instance.OnEnterShop;
+            @ExitUI.started += instance.OnExitUI;
+            @ExitUI.performed += instance.OnExitUI;
+            @ExitUI.canceled += instance.OnExitUI;
         }
 
         /// <summary>
@@ -433,6 +491,12 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @Climb.started -= instance.OnClimb;
             @Climb.performed -= instance.OnClimb;
             @Climb.canceled -= instance.OnClimb;
+            @EnterShop.started -= instance.OnEnterShop;
+            @EnterShop.performed -= instance.OnEnterShop;
+            @EnterShop.canceled -= instance.OnEnterShop;
+            @ExitUI.started -= instance.OnExitUI;
+            @ExitUI.performed -= instance.OnExitUI;
+            @ExitUI.canceled -= instance.OnExitUI;
         }
 
         /// <summary>
@@ -508,5 +572,19 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnClimb(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "EnterShop" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnEnterShop(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ExitUI" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnExitUI(InputAction.CallbackContext context);
     }
 }

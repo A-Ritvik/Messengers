@@ -28,7 +28,6 @@ public class TimeManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             timeStamp ++; 
-            Debug.Log("current time stamp: " + timeStamp);
         }
         if(isCounting!)
         {
