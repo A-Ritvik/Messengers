@@ -12,9 +12,20 @@ public class PlayerControl : MonoBehaviour
     public float speed = 5f;
     public int NumberAttack1;
     int NumberAttack1CoolDown = 6;
+    public static bool climbMode;
+    public void OnClimb(InputAction.CallbackContext context)
+    {
+        if(climbMode)
+        {
+                move.x = 0;
+                move.y = context.ReadValue<float>();
+        }
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if(!climbMode)
+        {
         moveInput = context.ReadValue<Vector2>();
         if (moveInput.x<0)
         {
@@ -28,6 +39,8 @@ public class PlayerControl : MonoBehaviour
             spriteRender.flipX=false;
             attackBox.transform.localPosition = new Vector3(0.101f, -0.011f, 0.0422f);
             attackBox.transform.localRotation = Quaternion.Euler(0,0,-50.157f);
+        }
+        move = new Vector2(moveInput.x, moveInput.y);
         }
     }
     Rigidbody2D rb;
@@ -90,9 +103,10 @@ public class PlayerControl : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
     }
+    public Vector2 move;
     private void Update()
     {
-        Vector2 move = new Vector2(moveInput.x, moveInput.y);
+        
         transform.Translate(move * speed * Time.deltaTime);
 
     }

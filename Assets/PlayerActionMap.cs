@@ -118,6 +118,24 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PopVent"",
+                    ""type"": ""Button"",
+                    ""id"": ""307a061b-866b-44be-9ef3-a02546166418"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Climb"",
+                    ""type"": ""Button"",
+                    ""id"": ""44310271-9294-4b79-82f0-27604a147254"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -175,6 +193,50 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e509690-bd7b-431d-957d-df303d6183f8"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PopVent"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Up/Down"",
+                    ""id"": ""8c5d82f5-49c0-4123-b095-60e7d657e74c"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Climb"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""bf3f9e6d-1aa4-43f8-8db2-d196fa550680"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Climb"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""7362ce4c-c2da-4587-a84a-21b22963cdf9"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Climb"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -186,6 +248,8 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         m_CustomPlayer_Move = m_CustomPlayer.FindAction("Move", throwIfNotFound: true);
         m_CustomPlayer_Jump = m_CustomPlayer.FindAction("Jump", throwIfNotFound: true);
         m_CustomPlayer_Attack = m_CustomPlayer.FindAction("Attack", throwIfNotFound: true);
+        m_CustomPlayer_PopVent = m_CustomPlayer.FindAction("PopVent", throwIfNotFound: true);
+        m_CustomPlayer_Climb = m_CustomPlayer.FindAction("Climb", throwIfNotFound: true);
     }
 
     ~@PlayerActionMap()
@@ -269,6 +333,8 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_CustomPlayer_Move;
     private readonly InputAction m_CustomPlayer_Jump;
     private readonly InputAction m_CustomPlayer_Attack;
+    private readonly InputAction m_CustomPlayer_PopVent;
+    private readonly InputAction m_CustomPlayer_Climb;
     /// <summary>
     /// Provides access to input actions defined in input action map "Custom Player".
     /// </summary>
@@ -292,6 +358,14 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CustomPlayer/Attack".
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_CustomPlayer_Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "CustomPlayer/PopVent".
+        /// </summary>
+        public InputAction @PopVent => m_Wrapper.m_CustomPlayer_PopVent;
+        /// <summary>
+        /// Provides access to the underlying input action "CustomPlayer/Climb".
+        /// </summary>
+        public InputAction @Climb => m_Wrapper.m_CustomPlayer_Climb;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -327,6 +401,12 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @PopVent.started += instance.OnPopVent;
+            @PopVent.performed += instance.OnPopVent;
+            @PopVent.canceled += instance.OnPopVent;
+            @Climb.started += instance.OnClimb;
+            @Climb.performed += instance.OnClimb;
+            @Climb.canceled += instance.OnClimb;
         }
 
         /// <summary>
@@ -347,6 +427,12 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @PopVent.started -= instance.OnPopVent;
+            @PopVent.performed -= instance.OnPopVent;
+            @PopVent.canceled -= instance.OnPopVent;
+            @Climb.started -= instance.OnClimb;
+            @Climb.performed -= instance.OnClimb;
+            @Climb.canceled -= instance.OnClimb;
         }
 
         /// <summary>
@@ -408,5 +494,19 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PopVent" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPopVent(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Climb" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClimb(InputAction.CallbackContext context);
     }
 }
