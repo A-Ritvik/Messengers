@@ -1,10 +1,13 @@
 using System.Collections;
+using TMPro;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
+    public static int coins;
+    public TextMeshProUGUI coinDisplay;
     SpriteRenderer spriteRender;
     private Vector2 moveInput;
     public GameObject attackBox;
@@ -15,6 +18,7 @@ public class PlayerControl : MonoBehaviour
     public static bool climbMode = false;
     public static bool controlsEnabled = true;
     public static bool topdownMode;
+    public static int Health;
     public void OnClimb(InputAction.CallbackContext context)
     {
         if(controlsEnabled)
@@ -119,7 +123,7 @@ public class PlayerControl : MonoBehaviour
     {
         
         transform.Translate(move * speed * Time.deltaTime);
-
+        coinDisplay.text = "Coins:" + coins;
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -135,5 +139,10 @@ public class PlayerControl : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRender = GetComponent<SpriteRenderer>();
         player = gameObject;
+    }
+    //for test purposes
+    public void AddCoin()
+    {
+        coins++;
     }
 }

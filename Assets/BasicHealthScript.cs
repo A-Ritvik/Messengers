@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine.AI;
+using UnityEditor;
 
 public class BasicHealthScript : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class BasicHealthScript : MonoBehaviour
     public Sprite healthbarHalf;
     public Sprite healthbarEmpty; 
     public SpriteRenderer spriteRender;
+    public GameObject coinPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,6 +32,7 @@ public class BasicHealthScript : MonoBehaviour
         }
         else
         {
+            PlayerControl.Health -= attackValue;
             if(Health <= fullHealth/2 )
             {
                 spriteRender.sprite = healthbarHalf;
@@ -45,6 +48,10 @@ public class BasicHealthScript : MonoBehaviour
     {
         if (Health <= 0)
         {
+            if(gameObject.tag == "AttackableCharacter")
+            {
+                Instantiate(coinPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -1), Quaternion.Euler(0,0,0));
+            }
             Destroy(gameObject);
         }
     }
