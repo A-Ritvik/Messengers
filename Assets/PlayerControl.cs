@@ -17,8 +17,83 @@ public class PlayerControl : MonoBehaviour
     int NumberAttack1CoolDown = 6;
     public static bool climbMode = false;
     public static bool controlsEnabled = true;
-    public static bool topdownMode;
     public static int Health;
+    public static PlayerInput playerInput;
+    public static Rigidbody2D playerBody;
+    public static void SwitchMode(bool topDownMode)
+    {
+        if(topDownMode)
+        {
+            playerInput.SwitchCurrentActionMap("PlayertopDown Mode");
+            playerBody.gravityScale = 0;
+            playerBody.linearVelocity = new Vector2(0, 0);
+        }
+        else
+        {
+            playerInput.SwitchCurrentActionMap("Custom Player");
+            playerBody.gravityScale = 1;
+            playerBody.linearVelocity = new Vector2(0, 0);
+        }
+    }
+    bool exitSide;
+    bool ventNearby;
+    public void onPopVent(InputAction.CallbackContext context)
+    {
+        if(ventNearby)
+        {
+            
+            if(!exitSide)
+            {
+                player.transform.position = new Vector3(-35, -2.5f, player.transform.position.z);
+            }
+            else
+            {
+                player.transform.position = new Vector3(-34.51f, -0.5f, player.transform.position.z);
+            }
+        }
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        BasicCollidorQuery vent = collision.GetComponent<BasicCollidorQuery>();
+        if(vent != null)
+        {
+            ventNearby = true;
+            if(collision.gameObject.tag == "Exit")
+            {
+                exitSide = true;
+            }
+            else
+            {
+                exitSide = false;
+            }
+        }
+    }
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        BasicCollidorQuery vent = collision.GetComponent<BasicCollidorQuery>();
+        if(vent!= null)
+        {
+            ventNearby = false;
+        }
+    }
+    public void On4dirMove(InputAction.CallbackContext context)
+    {
+        Vector2 moveInput = context.ReadValue<Vector2>();
+        if (moveInput.x<0)
+            {
+                spriteRender.flipX=true;
+                attackBox.transform.localPosition = new Vector3(-0.1f,0,0);
+                attackBox.transform.localRotation = Quaternion.Euler(0,180,-50.157f);
+
+            }
+        else if(moveInput.x>0)
+            {
+                spriteRender.flipX=false;
+                attackBox.transform.localPosition = new Vector3(0.101f, -0.011f, 0.0422f);
+                attackBox.transform.localRotation = Quaternion.Euler(0,0,-50.157f);
+            }
+        move = new Vector2(moveInput.x, moveInput.y);
+    }
     public void OnClimb(InputAction.CallbackContext context)
     {
         if(controlsEnabled)
@@ -139,6 +214,8 @@ public class PlayerControl : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRender = GetComponent<SpriteRenderer>();
         player = gameObject;
+        playerInput = GetComponent<PlayerInput>();
+        playerBody = GetComponent<Rigidbody2D>();
     }
     //for test purposes
     public void AddCoin()

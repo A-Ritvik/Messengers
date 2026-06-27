@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - AttackableCharacter
+  - Exit
+  - Entry
   layers:
   - Default
   - TransparentFX

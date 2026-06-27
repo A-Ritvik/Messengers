@@ -279,6 +279,78 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlayertopDown Mode"",
+            ""id"": ""30f0d01a-0559-48e0-b45d-3db1aca70230"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""a199e4ef-7165-4279-8ac6-11164aecc9ad"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""95071982-6f3f-4038-9d29-6a85ab548124"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""0000370e-2eb6-46b8-85ae-fc1fc837c85d"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""81c62c94-670d-4dbe-b111-f5d8045335d4"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""785c270b-b705-412b-89b5-f38468f4febb"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""7733dba0-5530-45d8-9419-8ec4a52bc1d6"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -292,11 +364,15 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         m_CustomPlayer_Climb = m_CustomPlayer.FindAction("Climb", throwIfNotFound: true);
         m_CustomPlayer_EnterShop = m_CustomPlayer.FindAction("EnterShop", throwIfNotFound: true);
         m_CustomPlayer_ExitUI = m_CustomPlayer.FindAction("ExitUI", throwIfNotFound: true);
+        // PlayertopDown Mode
+        m_PlayertopDownMode = asset.FindActionMap("PlayertopDown Mode", throwIfNotFound: true);
+        m_PlayertopDownMode_Move = m_PlayertopDownMode.FindAction("Move", throwIfNotFound: true);
     }
 
     ~@PlayerActionMap()
     {
         UnityEngine.Debug.Assert(!m_CustomPlayer.enabled, "This will cause a leak and performance issues, PlayerActionMap.CustomPlayer.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_PlayertopDownMode.enabled, "This will cause a leak and performance issues, PlayerActionMap.PlayertopDownMode.Disable() has not been called.");
     }
 
     /// <summary>
@@ -530,6 +606,102 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="CustomPlayerActions" /> instance referencing this action map.
     /// </summary>
     public CustomPlayerActions @CustomPlayer => new CustomPlayerActions(this);
+
+    // PlayertopDown Mode
+    private readonly InputActionMap m_PlayertopDownMode;
+    private List<IPlayertopDownModeActions> m_PlayertopDownModeActionsCallbackInterfaces = new List<IPlayertopDownModeActions>();
+    private readonly InputAction m_PlayertopDownMode_Move;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "PlayertopDown Mode".
+    /// </summary>
+    public struct PlayertopDownModeActions
+    {
+        private @PlayerActionMap m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public PlayertopDownModeActions(@PlayerActionMap wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "PlayertopDownMode/Move".
+        /// </summary>
+        public InputAction @Move => m_Wrapper.m_PlayertopDownMode_Move;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_PlayertopDownMode; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="PlayertopDownModeActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(PlayertopDownModeActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="PlayertopDownModeActions" />
+        public void AddCallbacks(IPlayertopDownModeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlayertopDownModeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayertopDownModeActionsCallbackInterfaces.Add(instance);
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="PlayertopDownModeActions" />
+        private void UnregisterCallbacks(IPlayertopDownModeActions instance)
+        {
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PlayertopDownModeActions.UnregisterCallbacks(IPlayertopDownModeActions)" />.
+        /// </summary>
+        /// <seealso cref="PlayertopDownModeActions.UnregisterCallbacks(IPlayertopDownModeActions)" />
+        public void RemoveCallbacks(IPlayertopDownModeActions instance)
+        {
+            if (m_Wrapper.m_PlayertopDownModeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="PlayertopDownModeActions.AddCallbacks(IPlayertopDownModeActions)" />
+        /// <seealso cref="PlayertopDownModeActions.RemoveCallbacks(IPlayertopDownModeActions)" />
+        /// <seealso cref="PlayertopDownModeActions.UnregisterCallbacks(IPlayertopDownModeActions)" />
+        public void SetCallbacks(IPlayertopDownModeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlayertopDownModeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlayertopDownModeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="PlayertopDownModeActions" /> instance referencing this action map.
+    /// </summary>
+    public PlayertopDownModeActions @PlayertopDownMode => new PlayertopDownModeActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Custom Player" which allows adding and removing callbacks.
     /// </summary>
@@ -586,5 +758,20 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnExitUI(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayertopDown Mode" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="PlayertopDownModeActions.AddCallbacks(IPlayertopDownModeActions)" />
+    /// <seealso cref="PlayertopDownModeActions.RemoveCallbacks(IPlayertopDownModeActions)" />
+    public interface IPlayertopDownModeActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMove(InputAction.CallbackContext context);
     }
 }

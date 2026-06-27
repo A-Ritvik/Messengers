@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CastleEntryManager : MonoBehaviour
 {
-    GameObject castleEntry; 
+    public GameObject castleEntry; 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,8 +18,8 @@ public class CastleEntryManager : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            PlayerControl.player.transform.position = castleEntry.transform.position;
-            PlayerControl.topdownMode = true;
+            PlayerControl.player.transform.position = new Vector3(castleEntry.transform.position.x, castleEntry.transform.position.y, -1);
+            PlayerControl.SwitchMode(true);
         }
     }
 }

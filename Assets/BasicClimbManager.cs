@@ -20,8 +20,10 @@ public class BasicClimbManager : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             PlayerControl.climbMode = true;
+            PlayerControl.playerBody.linearVelocity = new Vector2(0,0);
+            player.GetComponent<Rigidbody2D>().gravityScale = 0;
+
         }
-        player.GetComponent<Rigidbody2D>().gravityScale = 0;
     }
     void OnTriggerExit2D(Collider2D collision)
     {
