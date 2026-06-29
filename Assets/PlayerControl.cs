@@ -20,6 +20,7 @@ public class PlayerControl : MonoBehaviour
     public static int Health;
     public static PlayerInput playerInput;
     public static Rigidbody2D playerBody;
+    public Animator playerAnimator;
     public static void SwitchMode(bool topDownMode)
     {
         if(topDownMode)
@@ -39,6 +40,8 @@ public class PlayerControl : MonoBehaviour
     bool ventNearby;
     public void onPopVent(InputAction.CallbackContext context)
     {
+        if(context.performed)
+        {
         if(ventNearby)
         {
             
@@ -50,6 +53,7 @@ public class PlayerControl : MonoBehaviour
             {
                 player.transform.position = new Vector3(-34.51f, -0.5f, player.transform.position.z);
             }
+        }
         }
     }
     void OnTriggerEnter2D(Collider2D collision)
@@ -82,15 +86,15 @@ public class PlayerControl : MonoBehaviour
         if (moveInput.x<0)
             {
                 spriteRender.flipX=true;
-                attackBox.transform.localPosition = new Vector3(-0.1f,0,0);
-                attackBox.transform.localRotation = Quaternion.Euler(0,180,-50.157f);
+                attackBox.transform.localPosition = new Vector3(-0.464f,0.918f,0);
+                attackBox.transform.localRotation = Quaternion.Euler(0,180,205.757f);
 
             }
         else if(moveInput.x>0)
             {
                 spriteRender.flipX=false;
-                attackBox.transform.localPosition = new Vector3(0.101f, -0.011f, 0.0422f);
-                attackBox.transform.localRotation = Quaternion.Euler(0,0,-50.157f);
+                attackBox.transform.localPosition = new Vector3(0.467f, 0.77f, 0);
+                attackBox.transform.localRotation = Quaternion.Euler(0,0,209.828f);
             }
         move = new Vector2(moveInput.x, moveInput.y);
     }
@@ -114,15 +118,15 @@ public class PlayerControl : MonoBehaviour
         if (moveInput.x<0)
         {
             spriteRender.flipX=true;
-            attackBox.transform.localPosition = new Vector3(-0.1f,0,0);
-            attackBox.transform.localRotation = Quaternion.Euler(0,180,-50.157f);
+            attackBox.transform.localPosition = new Vector3(-0.464f,0.918f,0);
+            attackBox.transform.localRotation = Quaternion.Euler(0,-180,933f);
 
         }
         else if(moveInput.x>0)
         {
             spriteRender.flipX=false;
-            attackBox.transform.localPosition = new Vector3(0.101f, -0.011f, 0.0422f);
-            attackBox.transform.localRotation = Quaternion.Euler(0,0,-50.157f);
+            attackBox.transform.localPosition = new Vector3(0.505f, 0.813f, 0);
+            attackBox.transform.localRotation = Quaternion.Euler(0,0,28.692f);
         }
         move = new Vector2(moveInput.x, moveInput.y);
         }
@@ -134,6 +138,9 @@ public class PlayerControl : MonoBehaviour
         {
         if (context.performed && jumpCount < jumpMax)
         {
+            playerAnimator.SetTrigger("Jump");
+            playerAnimator.SetBool("Grounded", false);
+
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y);
 
             rb.AddForce(Vector2.up * jumpMultiplier, ForceMode2D.Impulse);
@@ -152,7 +159,6 @@ public class PlayerControl : MonoBehaviour
             {
                 if (context.performed)
                 {
-                    attackBox.GetComponent<Animator>().SetTrigger("Attack");
                     StartCoroutine(Attack());
                     timeStamp = secondsPassed;
                     NumberAttack1++;
@@ -165,12 +171,13 @@ public class PlayerControl : MonoBehaviour
     {
         attackBox.SetActive(true);
         attackBox.GetComponent<BoxCollider2D>().enabled = true;
+        playerAnimator.SetTrigger("Attack1");
         yield return new WaitForSeconds(attackDuration);
         attackBox.GetComponent<BoxCollider2D>().enabled = false;
     }
     public int jumpMultiplier = 2;
     int jumpCount = 0;
-    public int jumpMax;
+    public int jumpMax = 1;
     public int secondsPassed;
     public int timeStamp;
     IEnumerator AttackCoolDown()
@@ -199,11 +206,22 @@ public class PlayerControl : MonoBehaviour
         
         transform.Translate(move * speed * Time.deltaTime);
         coinDisplay.text = "Coins:" + coins;
+        if (Mathf.Abs(move.x) > 0.01f)
+        {
+            playerAnimator.SetInteger("AnimState", 1);
+            playerAnimator.SetTrigger("Run");
+        }
+        else
+            playerAnimator.SetInteger("AnimState", 0);
+            playerAnimator.SetTrigger("Idle");
+        playerAnimator.SetFloat("AirSpeedY", playerBody.linearVelocityY);
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            playerAnimator.SetBool("Grounded", true);
+            playerAnimator.SetTrigger("Idle");
             jumpCount = 0;
         }
     }

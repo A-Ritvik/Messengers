@@ -14,6 +14,7 @@ public class BasicHealthScript : MonoBehaviour
     public Sprite healthbarEmpty; 
     public SpriteRenderer spriteRender;
     public GameObject coinPrefab;
+    ParticleSystem particles;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,13 +23,18 @@ public class BasicHealthScript : MonoBehaviour
         Health = (int)Variables.Object(gameObject).Get("Health");
         }
         fullHealth = Health;
+        if (gameObject.tag != "Player");
+        {
+        particles = GetComponent<ParticleSystem>();
+        }
     }
     public void onAttacked(int attackValue)
     {
+        Debug.Log("Something with tag " + gameObject.tag + " was attacked");
         Health -= attackValue;
-        if ( GetComponent<ParticleSystem>() != null)
+        if ( particles != null)
         {
-            GetComponent<ParticleSystem>().Play();
+            particles.Play();
         }
         else
         {
