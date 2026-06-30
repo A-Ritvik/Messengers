@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEditor.Callbacks;
@@ -205,7 +206,7 @@ public class PlayerControl : MonoBehaviour
     {
         
         transform.Translate(move * speed * Time.deltaTime);
-        coinDisplay.text = "Coins:" + coins;
+        coinDisplay.text = coins.ToString();
         if (Mathf.Abs(move.x) > 0.01f)
         {
             playerAnimator.SetInteger("AnimState", 1);

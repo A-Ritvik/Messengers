@@ -4,17 +4,23 @@ using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine.AI;
 using UnityEditor;
+using UnityEngine.UI;
+using System.Collections;
+using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms;
 
 public class BasicHealthScript : MonoBehaviour
 {
-    public int Health;
-    public int fullHealth;
+    public float Health;
+    public float fullHealth;
         public Sprite healthbarFull;
     public Sprite healthbarHalf;
     public Sprite healthbarEmpty; 
     public SpriteRenderer spriteRender;
     public GameObject coinPrefab;
     ParticleSystem particles;
+    public Image heartUI;
+    public WorldManager localManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,7 +29,7 @@ public class BasicHealthScript : MonoBehaviour
         Health = (int)Variables.Object(gameObject).Get("Health");
         }
         fullHealth = Health;
-        if (gameObject.tag != "Player");
+        if (gameObject.tag != "Player")
         {
         particles = GetComponent<ParticleSystem>();
         }
@@ -47,18 +53,27 @@ public class BasicHealthScript : MonoBehaviour
             {
                 spriteRender.sprite = healthbarEmpty;
             }
+            float healthRatio = Health/fullHealth;
+            heartUI.color = Color.Lerp(Color.black, Color.red, healthRatio);
+
         }
     }
+    bool dead;
     // Update is called once per frame
     void Update()
     {
-        if (Health <= 0)
+        if (Health <= 0 && !dead)
         {
+            dead = true;
             if(gameObject.tag == "AttackableCharacter")
             {
                 Instantiate(coinPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -1), Quaternion.Euler(0,0,0));
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
+            else if(gameObject.tag == "Player")
+            {
+                SceneManager.LoadScene("Game Over");
+            }
         }
     }
 }
