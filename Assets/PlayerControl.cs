@@ -46,13 +46,13 @@ public class PlayerControl : MonoBehaviour
         if(ventNearby)
         {
             
-            if(!exitSide)
+            if(exitSide)
             {
-                player.transform.position = new Vector3(-35, -2.5f, player.transform.position.z);
+                player.transform.position = new Vector3(-39, -1.292f, player.transform.position.z);
             }
             else
             {
-                player.transform.position = new Vector3(-34.51f, -0.5f, player.transform.position.z);
+                player.transform.position = new Vector3(-39.4f, -2.467f, player.transform.position.z);
             }
         }
         }

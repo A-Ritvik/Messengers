@@ -8,6 +8,8 @@ TagManager:
   - AttackableCharacter
   - Exit
   - Entry
+  - Accessible
+  - Unaccessible
   layers:
   - Default
   - TransparentFX

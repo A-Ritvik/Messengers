@@ -31,8 +31,9 @@ public class BasicHealthScript : MonoBehaviour
         fullHealth = Health;
         if (gameObject.tag != "Player")
         {
-        particles = GetComponent<ParticleSystem>();
+            particles = GetComponent<ParticleSystem>();
         }
+        localRegion = GetComponentInParent<RegionManager>();
     }
     public void onAttacked(int attackValue)
     {
@@ -40,6 +41,7 @@ public class BasicHealthScript : MonoBehaviour
         Health -= attackValue;
         if ( particles != null)
         {
+            particles.Clear();
             particles.Play();
         }
         else
@@ -58,7 +60,8 @@ public class BasicHealthScript : MonoBehaviour
 
         }
     }
-    bool dead;
+    bool dead = false;
+    RegionManager localRegion;
     // Update is called once per frame
     void Update()
     {
@@ -68,6 +71,7 @@ public class BasicHealthScript : MonoBehaviour
             if(gameObject.tag == "AttackableCharacter")
             {
                 Instantiate(coinPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, -1), Quaternion.Euler(0,0,0));
+                localRegion.OnBanditDeath();
                 Destroy(gameObject);
             }
             else if(gameObject.tag == "Player")
