@@ -154,6 +154,15 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""610beab1-7e0a-4fdb-9803-8583446c458e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -277,6 +286,17 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""action"": ""ExitUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6a5ad1ec-0a52-41d3-b4ab-b49fd7be04ed"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -292,6 +312,15 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""57913198-967b-4544-8d5f-59b871a8d04d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -349,6 +378,17 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc60f8b8-1924-4f6e-9f37-bf3154a464db"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -364,9 +404,11 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         m_CustomPlayer_Climb = m_CustomPlayer.FindAction("Climb", throwIfNotFound: true);
         m_CustomPlayer_EnterShop = m_CustomPlayer.FindAction("EnterShop", throwIfNotFound: true);
         m_CustomPlayer_ExitUI = m_CustomPlayer.FindAction("ExitUI", throwIfNotFound: true);
+        m_CustomPlayer_Interact = m_CustomPlayer.FindAction("Interact", throwIfNotFound: true);
         // PlayertopDown Mode
         m_PlayertopDownMode = asset.FindActionMap("PlayertopDown Mode", throwIfNotFound: true);
         m_PlayertopDownMode_Move = m_PlayertopDownMode.FindAction("Move", throwIfNotFound: true);
+        m_PlayertopDownMode_Interact = m_PlayertopDownMode.FindAction("Interact", throwIfNotFound: true);
     }
 
     ~@PlayerActionMap()
@@ -455,6 +497,7 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_CustomPlayer_Climb;
     private readonly InputAction m_CustomPlayer_EnterShop;
     private readonly InputAction m_CustomPlayer_ExitUI;
+    private readonly InputAction m_CustomPlayer_Interact;
     /// <summary>
     /// Provides access to input actions defined in input action map "Custom Player".
     /// </summary>
@@ -494,6 +537,10 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "CustomPlayer/ExitUI".
         /// </summary>
         public InputAction @ExitUI => m_Wrapper.m_CustomPlayer_ExitUI;
+        /// <summary>
+        /// Provides access to the underlying input action "CustomPlayer/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_CustomPlayer_Interact;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -541,6 +588,9 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @ExitUI.started += instance.OnExitUI;
             @ExitUI.performed += instance.OnExitUI;
             @ExitUI.canceled += instance.OnExitUI;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         /// <summary>
@@ -573,6 +623,9 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @ExitUI.started -= instance.OnExitUI;
             @ExitUI.performed -= instance.OnExitUI;
             @ExitUI.canceled -= instance.OnExitUI;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         /// <summary>
@@ -611,6 +664,7 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayertopDownMode;
     private List<IPlayertopDownModeActions> m_PlayertopDownModeActionsCallbackInterfaces = new List<IPlayertopDownModeActions>();
     private readonly InputAction m_PlayertopDownMode_Move;
+    private readonly InputAction m_PlayertopDownMode_Interact;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayertopDown Mode".
     /// </summary>
@@ -626,6 +680,10 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayertopDownMode/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_PlayertopDownMode_Move;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayertopDownMode/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_PlayertopDownMode_Interact;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -655,6 +713,9 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         /// <summary>
@@ -669,6 +730,9 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         /// <summary>
@@ -758,6 +822,13 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnExitUI(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayertopDown Mode" which allows adding and removing callbacks.
@@ -773,5 +844,12 @@ public partial class @PlayerActionMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

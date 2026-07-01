@@ -19,7 +19,10 @@ public class CastleEntryManager : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             PlayerControl.player.transform.position = new Vector3(castleEntry.transform.position.x, castleEntry.transform.position.y, -1);
-            PlayerControl.SwitchMode(true);
+            if(gameObject.tag == "Entry")
+                PlayerControl.SwitchMode(true);
+            else
+                PlayerControl.SwitchMode(false);
         }
     }
 }

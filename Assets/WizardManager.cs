@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class KingManager : MonoBehaviour
+public class WizardManager : MonoBehaviour
 {
     public GameObject interactNewMessagePopup;
     public GameObject interactRecieveMessagePopup;
-    public static int mailPayout = 5;
-    public static bool nearKing;
+    public static int mailPayout = 1;
+    public static bool nearWizard;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,7 +30,7 @@ public class KingManager : MonoBehaviour
             {
                 interactRecieveMessagePopup.gameObject.SetActive(true);
             }
-            nearKing = true;
+            nearWizard= true;
         }
     }
     void OnTriggerExit2D(Collider2D collision)
@@ -44,20 +45,23 @@ public class KingManager : MonoBehaviour
             {
                 interactRecieveMessagePopup.gameObject.SetActive(false);
             }
-            nearKing= false;
+            nearWizard = false;
         }
     }
     void OnTriggerStay2D(Collider2D collision)
     {
-        if(PlayerControl.hasMail)
+        if(collision.gameObject.tag == "Player")
         {
-            interactNewMessagePopup.gameObject.SetActive(false);
-            interactRecieveMessagePopup.gameObject.SetActive(true);                
-        }
-        else
-        {
-            interactRecieveMessagePopup.gameObject.SetActive(false);
-            interactNewMessagePopup.gameObject.SetActive(true);
+            if(PlayerControl.hasMail)
+            {
+                interactNewMessagePopup.gameObject.SetActive(false);
+                interactRecieveMessagePopup.gameObject.SetActive(true);                
+            }
+            else
+            {
+                interactRecieveMessagePopup.gameObject.SetActive(false);
+                interactNewMessagePopup.gameObject.SetActive(true);
+            }
         }
     }
 }

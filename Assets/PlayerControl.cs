@@ -22,6 +22,9 @@ public class PlayerControl : MonoBehaviour
     public static PlayerInput playerInput;
     public static Rigidbody2D playerBody;
     public Animator playerAnimator;
+    public static bool hasMail = false;
+    public static bool mailFromKing;
+
     public static void SwitchMode(bool topDownMode)
     {
         if(topDownMode)
@@ -239,6 +242,6 @@ public class PlayerControl : MonoBehaviour
     //for test purposes
     public void AddCoin()
     {
-        coins++;
+        coins+=20;
     }
 }

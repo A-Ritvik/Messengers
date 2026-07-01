@@ -35,6 +35,7 @@ public class BasicHealthScript : MonoBehaviour
         }
         localRegion = GetComponentInParent<RegionManager>();
     }
+    float healthRatio;
     public void onAttacked(int attackValue)
     {
         Debug.Log("Something with tag " + gameObject.tag + " was attacked");
@@ -55,10 +56,15 @@ public class BasicHealthScript : MonoBehaviour
             {
                 spriteRender.sprite = healthbarEmpty;
             }
-            float healthRatio = Health/fullHealth;
+            healthRatio = Health/fullHealth;
             heartUI.color = Color.Lerp(Color.black, Color.red, healthRatio);
 
         }
+    }
+    public void UpdateHealthUI()
+    {
+        healthRatio = Health/fullHealth;
+        heartUI.color = Color.Lerp(Color.black, Color.red, healthRatio);
     }
     bool dead = false;
     RegionManager localRegion;

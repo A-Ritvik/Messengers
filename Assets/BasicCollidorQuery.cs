@@ -35,7 +35,7 @@ public class BasicCollidorQuery : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player" && gameObject.tag != "Finish")
         {
         ladderAskPopUp.gameObject.SetActive(false);
         }
