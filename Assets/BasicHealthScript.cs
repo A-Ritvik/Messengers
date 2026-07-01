@@ -1,14 +1,7 @@
-using Mono.Cecil.Cil;
 using UnityEngine;
 using Unity.VisualScripting;
-using UnityEditor.UI;
-using UnityEngine.AI;
-using UnityEditor;
 using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms;
-
 public class BasicHealthScript : MonoBehaviour
 {
     public float Health;
