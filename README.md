@@ -19,3 +19,6 @@ Features an overlay UI with a heart that gradually darkens as the player gets cl
 <img width="1108" height="514" alt="Screenshot 2026-07-01 121426" src="https://github.com/user-attachments/assets/1016ba5f-bdbb-4fac-adff-2c7aee12833a" />
 
 The map (platform map and interior of castle), health orb, coin, boat, and mail icon were created by me using Figma. The wizard and king sprites were made by Luiz Melo. The UI assets were made by Jennifer Bertaggia & Gentleland. The Player & Bandits (along with their animations) were made by Sven Thole. All of the assets created by others were found on the unity asset store. The game was made with the Unity Enginge utilizing the Universal Render Pipeline.  
+
+# AI Usage
+AI was only used for some minor debugging, it did NOT write any of the code or create any of the assets.
